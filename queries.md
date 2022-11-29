@@ -72,6 +72,37 @@ await client.close();
 
 <!-- Your Code Goes Here -->
 
+const filter = {
+'$and': [
+    {
+      'ipo': {
+        '$exists': true
+}
+}, {
+'ipo.valuation_amount': {
+'$ne': null
+      }
+    }, {
+      'ipo.valuation_amount': {
+        '$gt': 100000000
+}
+}, {
+'founded_year': {
+'$lte': 2010
+}
+}
+]
+};
+const projection = {
+'name': 1,
+'ipo': 1
+};
+
+const coll = client.db('lab-advanced-query').collection('lab-advanced-query');
+const cursor = coll.find(filter, { projection });
+const result = await cursor.toArray();
+await client.close();
+
 ### 5. All the companies that have less than 1000 employees and have been founded before 2005. Order them by the number of employees and limit the search to 10 companies.
 
 <!-- Your Code Goes Here -->
