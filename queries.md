@@ -6,12 +6,6 @@
 
 <!-- Your Code Goes Here -->
 
-/\*
-
-- Requires the MongoDB Node.js Driver
-- https://mongodb.github.io/node-mongodb-native
-  \*/
-
 const filter = {
 'name': {
 '$eq': 'Babelgum'
@@ -21,10 +15,6 @@ const projection = {
 'name': 'Babelgum'
 };
 
-const client = await MongoClient.connect(
-'mongodb://localhost:27017/',
-{ useNewUrlParser: true, useUnifiedTopology: true }
-);
 const coll = client.db('lab-advanced-query').collection('lab-advanced-query');
 const cursor = coll.find(filter, { projection });
 const result = await cursor.toArray();
@@ -33,12 +23,6 @@ await client.close();
 ### 2. All the companies that have more than 5000 employees. Limit the search to 20 companies and sort them by **number of employees**.
 
 <!-- Your Code Goes Here -->
-
-/\*
-
-- Requires the MongoDB Node.js Driver
-- https://mongodb.github.io/node-mongodb-native
-  \*/
 
 const filter = {
 'number_of_employees': {
@@ -50,10 +34,6 @@ const sort = {
 };
 const limit = 20;
 
-const client = await MongoClient.connect(
-'mongodb://localhost:27017/',
-{ useNewUrlParser: true, useUnifiedTopology: true }
-);
 const coll = client.db('lab-advanced-query').collection('lab-advanced-query');
 const cursor = coll.find(filter, { sort, limit });
 const result = await cursor.toArray();
@@ -62,6 +42,31 @@ await client.close();
 ### 3. All the companies founded between 2000 and 2005, both years included. Retrieve only the `name` and `founded_year` fields.
 
 <!-- Your Code Goes Here -->
+
+const filter = {
+'$and': [
+    {
+      'founded_year': {
+        '$gte': 2000
+}
+}, {
+'founded_year': {
+'$lte': 2005
+}
+}
+]
+};
+const projection = {
+'name': 1
+};
+const sort = {
+'name': 1
+};
+
+const coll = client.db('lab-advanced-query').collection('lab-advanced-query');
+const cursor = coll.find(filter, { projection, sort });
+const result = await cursor.toArray();
+await client.close();
 
 ### 4. All the companies that had a Valuation Amount of more than 100.000.000 and have been founded before 2010. Retrieve only the `name` and `ipo` fields.
 
