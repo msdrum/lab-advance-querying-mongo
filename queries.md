@@ -6,9 +6,58 @@
 
 <!-- Your Code Goes Here -->
 
+/\*
+
+- Requires the MongoDB Node.js Driver
+- https://mongodb.github.io/node-mongodb-native
+  \*/
+
+const filter = {
+'name': {
+'$eq': 'Babelgum'
+}
+};
+const projection = {
+'name': 'Babelgum'
+};
+
+const client = await MongoClient.connect(
+'mongodb://localhost:27017/',
+{ useNewUrlParser: true, useUnifiedTopology: true }
+);
+const coll = client.db('lab-advanced-query').collection('lab-advanced-query');
+const cursor = coll.find(filter, { projection });
+const result = await cursor.toArray();
+await client.close();
+
 ### 2. All the companies that have more than 5000 employees. Limit the search to 20 companies and sort them by **number of employees**.
 
 <!-- Your Code Goes Here -->
+
+/\*
+
+- Requires the MongoDB Node.js Driver
+- https://mongodb.github.io/node-mongodb-native
+  \*/
+
+const filter = {
+'number_of_employees': {
+'$gte': 5000
+}
+};
+const sort = {
+'number_of_employees': 1
+};
+const limit = 20;
+
+const client = await MongoClient.connect(
+'mongodb://localhost:27017/',
+{ useNewUrlParser: true, useUnifiedTopology: true }
+);
+const coll = client.db('lab-advanced-query').collection('lab-advanced-query');
+const cursor = coll.find(filter, { sort, limit });
+const result = await cursor.toArray();
+await client.close();
 
 ### 3. All the companies founded between 2000 and 2005, both years included. Retrieve only the `name` and `founded_year` fields.
 
