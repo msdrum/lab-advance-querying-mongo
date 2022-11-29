@@ -15,11 +15,6 @@ const projection = {
 'name': 1
 };
 
-const coll = client.db('lab-advanced-query').collection('lab-advanced-query');
-const cursor = coll.find(filter, { projection });
-const result = await cursor.toArray();
-await client.close();
-
 ### 2. All the companies that have more than 5000 employees. Limit the search to 20 companies and sort them by **number of employees**.
 
 <!-- Your Code Goes Here -->
@@ -33,11 +28,6 @@ const sort = {
 'number_of_employees': 1
 };
 const limit = 20;
-
-const coll = client.db('lab-advanced-query').collection('lab-advanced-query');
-const cursor = coll.find(filter, { sort, limit });
-const result = await cursor.toArray();
-await client.close();
 
 ### 3. All the companies founded between 2000 and 2005, both years included. Retrieve only the `name` and `founded_year` fields.
 
@@ -62,11 +52,6 @@ const projection = {
 const sort = {
 'name': 1
 };
-
-const coll = client.db('lab-advanced-query').collection('lab-advanced-query');
-const cursor = coll.find(filter, { projection, sort });
-const result = await cursor.toArray();
-await client.close();
 
 ### 4. All the companies that had a Valuation Amount of more than 100.000.000 and have been founded before 2010. Retrieve only the `name` and `ipo` fields.
 
@@ -98,11 +83,6 @@ const projection = {
 'ipo': 1
 };
 
-const coll = client.db('lab-advanced-query').collection('lab-advanced-query');
-const cursor = coll.find(filter, { projection });
-const result = await cursor.toArray();
-await client.close();
-
 ### 5. All the companies that have less than 1000 employees and have been founded before 2005. Order them by the number of employees and limit the search to 10 companies.
 
 <!-- Your Code Goes Here -->
@@ -124,11 +104,6 @@ const sort = {
 'number_of_employees': 1
 };
 const limit = 10;
-
-const coll = client.db('lab-advanced-query').collection('lab-advanced-query');
-const cursor = coll.find(filter, { sort, limit });
-const result = await cursor.toArray();
-await client.close();
 
 ### 6. All the companies that don't include the `partners` field.
 
@@ -153,6 +128,21 @@ await client.close();
 ### 11. All the companies founded on the second semester of the year. Limit your search to 1000 companies.
 
 <!-- Your Code Goes Here -->
+
+const filter = {
+'$and': [
+    {
+      'founded_month': {
+        '$gte': 7
+}
+}, {
+'founded_month': {
+'$lte': 12
+}
+}
+]
+};
+const limit = 1000;
 
 ### 12. All the companies founded before 2000 that have an acquisition amount of more than 10.000.000
 
